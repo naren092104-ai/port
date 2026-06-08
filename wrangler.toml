@@ -1,21 +1,11 @@
-# Cloudflare Pages Configuration
-# This is a static Vite + React SPA project
+# ⚠️ CRITICAL: This is a CLOUDFLARE PAGES project, NOT a Worker!
 # 
-# **DEPLOYMENT OPTIONS:**
-# 
-# Option 1 (RECOMMENDED): Connect GitHub to Cloudflare Pages Dashboard
-# - Go to https://dash.cloudflare.com
-# - Workers & Pages → Pages → Connect to Git
-# - Build Command: npm install && npm run build
-# - Output Directory: dist
+# DO NOT run: wrangler deploy
+# DO run instead:
+#   1. GitHub integration: Connect repo to Cloudflare Dashboard
+#   2. CLI: npx wrangler pages deploy dist
 #
-# Option 2: Manual deployment with wrangler CLI
-# - Run: npx wrangler pages deploy dist
-# 
-# Option 3: Use Cloudflare Pages Functions (if needed)
-# - Create functions/ directory for serverless functions
-# - wrangler will auto-detect and deploy
+# This is a Vite + React SPA that builds to static files (dist/)
 
-name = "narendhar-portfolio"
 compatibility_date = "2026-06-08"
 pages_build_output_dir = "dist"
