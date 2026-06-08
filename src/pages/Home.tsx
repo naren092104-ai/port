@@ -344,15 +344,7 @@ export default function Home() {
           <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-24 md:pt-40">
             <div className="grid md:grid-cols-12 gap-10 items-center">
               <div className="md:col-span-7 text-white">
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 backdrop-blur px-3 py-1 text-xs tracking-widest uppercase"
-                >
-                  <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Available · Q3 2026 · Senior program roles
-                </motion.div>
+                
 
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
