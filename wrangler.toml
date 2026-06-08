@@ -1,4 +1,4 @@
-# ⚠️ CRITICAL: This is a CLOUDFLARE PAGES project, NOT a Worker!
+name = "portfolio"# ⚠️ CRITICAL: This is a CLOUDFLARE PAGES project, NOT a Worker!
 # 
 # DO NOT run: wrangler deploy
 # DO run instead:
