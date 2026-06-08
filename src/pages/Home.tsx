@@ -39,6 +39,15 @@ const heroStats = [
   { value: 5, suffix: '+', label: 'Homes supported', icon: Building2 },
 ];
 
+const heroAchievements = [
+  { emoji: '🏆', title: 'Best Humanitarian Award', label: 'Leadership recognized in rescue and welfare' },
+  { emoji: '🏆', title: 'Best Socially Responsible Student Award', label: 'Award for sustained community service' },
+  { emoji: '🤝', title: '4+ Years of Service', label: 'Long-term volunteering across programs' },
+  { emoji: '🎓', title: '500+ Students Impacted', label: 'Education and mentoring outcomes' },
+];
+
+const heroAchievementPositions = ['top-6 left-0', 'top-24 right-0', 'bottom-28 left-0', 'bottom-10 right-0'];
+
 const dashboard = [
   { label: 'Schools supported', value: '7', delta: 'Across education programs', tone: 'from-fuchsia-500 to-pink-500' },
   { label: 'Volunteering experience', value: '3.5 yrs', delta: 'A sustained social commitment', tone: 'from-amber-400 to-orange-500' },
@@ -406,41 +415,89 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Hero stats glass card - compact redesign */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, delay: 0.4 }}
                 className="md:col-span-5 flex justify-end"
               >
-                <div className="rounded-2xl p-4 md:p-5 text-white bg-gradient-to-br from-black/20 to-transparent border border-white/5 backdrop-blur-md max-w-sm w-full">
-                  <div className="flex items-center justify-between mb-4">
-                    <p className="text-[10px] uppercase tracking-widest text-white/60">Impact at a glance</p>
-                    <span className="text-[10px] uppercase tracking-widest rounded-full bg-emerald-400/20 text-emerald-300 px-2 py-1">
-                      Live
-                    </span>
-                  </div>
+                <div className="relative w-full max-w-[460px]">
+                  <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-black/20 shadow-[0_40px_120px_rgba(15,23,42,0.35)] glass-strong">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.22),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(236,72,153,0.18),transparent_32%)]" />
+                    <div className="relative aspect-[4/5] overflow-hidden">
+                      <img
+                        src="/photos/photo-1.jpg"
+                        alt="Professional volunteer leadership"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/45" />
 
-                  <div className="grid grid-cols-2 gap-3">
-                    {heroStats.map((s) => (
-                      <div key={s.label} className="flex flex-col gap-2 rounded-lg border border-white/6 bg-white/3 p-3">
-                        <div className="flex items-center justify-between">
-                          <s.icon className="size-4 text-indigo-glow" />
-                        </div>
-                        <div className="font-display text-2xl leading-none">
-                          <CountUp to={s.value} suffix={s.suffix} />
-                        </div>
-                        <div className="mt-0 text-[11px] text-white/65">{s.label}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-3 rounded-lg border border-white/6 bg-white/4 p-3">
-                    <div className="size-8 rounded-full bg-gradient-to-br from-indigo-400 to-fuchsia-500" />
-                    <div>
-                      <p className="text-sm font-medium">Trusted by Bhumi, TFI, Magic Bus</p>
-                      <p className="text-xs text-white/60">14 NGOs · 6 cities · 4 CSR foundations</p>
+                      <div
+                        className="absolute top-4 left-4 h-28 w-28 rounded-[1.75rem] border border-white/15 shadow-[0_18px_50px_rgba(99,102,241,0.16)] hero-image-collage"
+                        style={{ backgroundImage: "url('/photos/photo-2.jpg')" }}
+                      />
+                      <div
+                        className="absolute right-5 top-28 h-24 w-24 rounded-[1.75rem] border border-white/15 shadow-[0_18px_50px_rgba(236,72,153,0.16)] hero-image-collage"
+                        style={{ backgroundImage: "url('/photos/photo-3.jpg')" }}
+                      />
+                      <div
+                        className="absolute left-6 bottom-24 h-20 w-20 rounded-[1.75rem] border border-white/15 shadow-[0_18px_50px_rgba(168,85,247,0.16)] hero-image-collage"
+                        style={{ backgroundImage: "url('/photos/photo-4.jpg')" }}
+                      />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.08),transparent_50%)] pointer-events-none" />
                     </div>
+
+                    {heroAchievements.map((achievement, index) => (
+                      <motion.div
+                        key={achievement.title}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 + index * 0.08 }}
+                        className={`hero-floating-card absolute ${heroAchievementPositions[index]} z-10 w-[13rem]`}
+                      >
+                        <div className="text-2xl">{achievement.emoji}</div>
+                        <div className="mt-3 text-sm font-semibold text-white">{achievement.title}</div>
+                        <div className="mt-1 text-[11px] text-white/70">{achievement.label}</div>
+                      </motion.div>
+                    ))}
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.85 }}
+                      className="absolute inset-x-4 bottom-4"
+                    >
+                      <div className="glass rounded-[2rem] border border-white/10 bg-white/10 p-4 backdrop-blur-xl shadow-[0_24px_80px_rgba(15,23,42,0.35)]">
+                        <div className="flex items-center justify-between mb-4">
+                          <p className="text-[10px] uppercase tracking-widest text-white/60">Impact at a glance</p>
+                          <span className="text-[10px] uppercase tracking-widest rounded-full bg-emerald-400/20 text-emerald-300 px-2 py-1">
+                            Live
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3">
+                          {heroStats.map((s) => (
+                            <div key={s.label} className="flex flex-col gap-2 rounded-2xl border border-white/6 bg-white/5 p-3 shadow-[0_18px_35px_rgba(0,0,0,0.12)]">
+                              <div className="flex items-center justify-between">
+                                <s.icon className="size-4 text-indigo-glow" />
+                              </div>
+                              <div className="font-display text-2xl leading-none">
+                                <CountUp to={s.value} suffix={s.suffix} />
+                              </div>
+                              <div className="mt-0 text-[11px] text-white/65">{s.label}</div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-white/6 bg-white/5 p-3">
+                          <div className="size-8 rounded-full bg-gradient-to-br from-indigo-400 to-fuchsia-500" />
+                          <div>
+                            <p className="text-sm font-medium text-white">Trusted by Bhumi, TFI, Magic Bus</p>
+                            <p className="text-xs text-white/60">14 NGOs · 6 cities · 4 CSR foundations</p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
                   </div>
                 </div>
               </motion.div>
