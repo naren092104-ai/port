@@ -50,7 +50,7 @@ export function Header() {
               isTransparent ? 'text-white' : 'text-foreground'
             )}
           >
-            Narendhar<span className="text-indigo-glow">.</span>
+            Narendhar<span className="text-indigo-glow">  </span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-7">
