@@ -33,20 +33,27 @@ import { ContactForm } from '@/components/forms/ContactForm';
    ────────────────────────────────────────────────────────────────────── */
 
 const heroStats = [
-  { value: 12000, suffix: '+', label: 'Lives impacted', icon: Heart },
-  { value: 3.5, suffix: ' yrs', label: 'Volunteering experience', icon: Sparkles },
-  { value: 2.5, suffix: ' Lakh', label: 'Funds collected', icon: HandHeart },
-  { value: 5, suffix: '+', label: 'Homes supported', icon: Building2 },
+  { value: 12000, suffix: '+', label: 'Lives Impacted', icon: Heart },
+  { value: 4, suffix: '+', label: 'Years Volunteering', icon: Sparkles },
+  { value: 500, suffix: '+', label: 'Students Mentored', icon: GraduationCap },
+  { value: 2, suffix: 'L+', label: 'Funds Raised', icon: HandHeart },
 ];
 
-const heroAchievements = [
-  { emoji: '🏆', title: 'Best Humanitarian Award', label: 'Leadership recognized in rescue and welfare' },
-  { emoji: '🏆', title: 'Best Socially Responsible Student Award', label: 'Award for sustained community service' },
-  { emoji: '🤝', title: '4+ Years of Service', label: 'Long-term volunteering across programs' },
-  { emoji: '🎓', title: '500+ Students Impacted', label: 'Education and mentoring outcomes' },
+const logoPartners = [
+  { name: 'Bhumi', src: '/logos/bhumi.svg' },
+  { name: 'Talent Quest for India', src: '/logos/tqi.svg' },
+  { name: 'Atchayam Trust', src: '/logos/atchayam.svg' },
+  { name: 'Saarvam Trust', src: '/logos/saravam.svg' },
+  { name: 'NSS', src: '/logos/nss.png' },
 ];
 
-const heroAchievementPositions = ['top-6 left-0', 'top-24 right-0', 'bottom-28 left-0', 'bottom-10 right-0'];
+const awardHighlights = [
+  { title: 'Best Humanitarian Award', subtitle: 'Atchayam Trust', tone: 'from-emerald-400 to-sky-400' },
+  { title: 'Best Socially Responsible Student Award', subtitle: 'KSRCT', tone: 'from-violet-400 to-fuchsia-400' },
+  { title: 'Impact Mentor of the Year', subtitle: 'Bhumi Teachers Express', tone: 'from-amber-400 to-orange-400' },
+];
+
+const typingPhrases = ['Designer', 'Developer', 'Social Impact Leader'];
 
 const dashboard = [
   { label: 'Schools supported', value: '7', delta: 'Across education programs', tone: 'from-fuchsia-500 to-pink-500' },
@@ -340,168 +347,226 @@ function SectionHeader({
    ────────────────────────────────────────────────────────────────────── */
 
 export default function Home() {
+  const [typingText, setTypingText] = useState('');
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = typingPhrases[phraseIndex % typingPhrases.length];
+    const update = isDeleting
+      ? current.slice(0, typingText.length - 1)
+      : current.slice(0, typingText.length + 1);
+
+    const delay = isDeleting ? 60 : 120;
+    const timeout = window.setTimeout(() => {
+      setTypingText(update);
+    }, delay);
+
+    let holdTimeout = 0;
+    if (!isDeleting && update === current) {
+      holdTimeout = window.setTimeout(() => setIsDeleting(true), 1200);
+    }
+
+    if (isDeleting && update === '') {
+      holdTimeout = window.setTimeout(() => {
+        setIsDeleting(false);
+        setPhraseIndex((value) => (value + 1) % typingPhrases.length);
+      }, 120);
+    }
+
+    return () => {
+      window.clearTimeout(timeout);
+      window.clearTimeout(holdTimeout);
+    };
+  }, [typingText, isDeleting, phraseIndex]);
+
   return (
     <>
       <SEOHead />
       <div className="min-h-screen">
         {/* ============ HERO ============ */}
-        <section className="relative min-h-screen w-full overflow-hidden gradient-hero">
-          <div className="absolute inset-0 grid-bg opacity-40" />
-          <div className="absolute -top-32 -left-32 size-[480px] rounded-full bg-indigo-glow/30 blur-3xl animate-float" />
-          <div className="absolute -bottom-32 -right-32 size-[520px] rounded-full bg-fuchsia-500/20 blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <section className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.22),transparent_20%),radial-gradient(circle_at_bottom_right,rgba(139,92,246,0.2),transparent_25%),linear-gradient(180deg,#090b14,#0f172a)] text-white">
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/80 to-slate-950/95" />
+          <div className="absolute inset-0 overflow-hidden">
+            {Array.from({ length: 12 }).map((_, index) => (
+              <span
+                key={index}
+                className="absolute block rounded-full bg-white/10 blur-xl"
+                style={{
+                  width: `${8 + (index % 4) * 8}px`,
+                  height: `${8 + (index % 4) * 8}px`,
+                  top: `${(index * 11) % 86}%`,
+                  left: `${(index * 19) % 91}%`,
+                  animation: `float-soft ${9 + (index % 6) * 0.7}s ease-in-out ${index * 0.3}s infinite`,
+                }}
+              />
+            ))}
+          </div>
 
-          <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-32 pb-24 md:pt-40">
-            <div className="grid md:grid-cols-12 gap-10 items-center">
-              <div className="md:col-span-7 text-white">
-                <motion.div
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 backdrop-blur px-3 py-1 text-xs tracking-widest uppercase"
-                >
-                  <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  Available · Q3 2026 · Senior program roles
-                </motion.div>
+          <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-20 lg:py-24">
+            <div className="grid items-center gap-12 lg:grid-cols-12">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="lg:col-span-5"
+              >
+                <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.32em] text-emerald-300 shadow-[0_20px_80px_rgba(15,23,42,0.15)]">
+                  Premium portfolio
+                </div>
 
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.1 }}
-                  className="font-display mt-6 text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.02] tracking-tight"
-                >
-                  Turning intent <br />
-                  into <span className="text-gradient italic">measurable impact</span>.
-                </motion.h1>
+                <h1 className="font-display mt-8 text-5xl md:text-6xl xl:text-7xl leading-[0.98] tracking-[-0.03em]">
+                  Narendhar D
+                </h1>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.25 }}
-                  className="mt-6 max-w-xl text-lg md:text-xl text-white/80 font-light leading-relaxed"
-                >
-                  I'm <span className="text-white font-medium">{photographerInfo.name}</span> — a social impact
-                  leader, TFI fellow and CSR program manager partnering with NGOs and foundations to scale
-                  community outcomes across India.
-                </motion.p>
+                <p className="mt-4 text-xl md:text-2xl text-slate-200 tracking-tight">
+                  Designer | Developer | Social Impact Leader
+                </p>
 
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="mt-8 flex flex-wrap items-center gap-3"
-                >
-                  <a
-                    href="#contact"
-                    className="inline-flex items-center gap-2 rounded-full bg-white text-indigo-950 px-6 py-3 text-sm font-semibold hover:bg-white/90 transition"
-                  >
-                    Invite me to interview <ArrowRight className="size-4" />
-                  </a>
+                <div className="mt-6 flex flex-wrap items-center gap-3 text-lg md:text-xl text-slate-100">
+                  <span>I build recruiter-ready digital experiences and social impact programs.</span>
+                </div>
+
+                <div className="mt-6 flex flex-wrap items-center gap-3 text-2xl font-semibold text-indigo-100">
+                  <span>{typingText}</span>
+                  <span className="typing-cursor">|</span>
+                </div>
+
+                <p className="mt-6 max-w-2xl text-slate-300 leading-relaxed">
+                  Award-winning volunteer leader combining design, development and CSR strategy to scale education, community outreach, and NGO partnerships across India.
+                </p>
+
+                <div className="mt-10 flex flex-wrap gap-4">
                   <a
                     href="/resume.pdf"
-                    download="resume.pdf"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 backdrop-blur px-6 py-3 text-sm font-semibold text-white hover:bg-white/10 transition"
+                    download
+                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(99,102,241,0.32)] transition duration-300 hover:brightness-110"
                   >
-                    <Download className="size-4" /> Download resume
+                    Download resume
                   </a>
-                </motion.div>
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition duration-300 hover:bg-white/10"
+                  >
+                    Contact
+                  </a>
+                </div>
 
-                <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs uppercase tracking-widest text-white/50">
-                  <span>Featured with</span>
-                  {photographerInfo.clients.slice(0, 5).map((c) => (
-                    <span key={c} className="text-white/70">
-                      {c}
-                    </span>
+                <div className="mt-12 grid gap-4 sm:grid-cols-2">
+                  {heroStats.map((stat, index) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.2 + index * 0.05 }}
+                      className="glass rounded-[1.75rem] border border-white/10 p-5 shadow-[0_20px_70px_rgba(15,23,75,0.18)]"
+                    >
+                      <div className="flex items-center justify-between text-slate-200">
+                        <stat.icon className="size-6 text-indigo-300" />
+                        <span className="text-xs uppercase tracking-[0.3em] text-white/60">Metric</span>
+                      </div>
+                      <div className="mt-4 text-4xl font-semibold tracking-tight text-white">
+                        <CountUp to={stat.value} suffix={stat.suffix} />
+                      </div>
+                      <p className="mt-2 text-sm text-slate-300">{stat.label}</p>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.4 }}
-                className="md:col-span-5 flex justify-end"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="lg:col-span-7 flex justify-center"
               >
-                <div className="relative w-full max-w-[460px]">
-                  <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-black/20 shadow-[0_40px_120px_rgba(15,23,42,0.35)] glass-strong">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.22),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(236,72,153,0.18),transparent_32%)]" />
-                    <div className="relative aspect-[4/5] overflow-hidden">
-                      <img
-                        src="/photos/photo-1.jpg"
-                        alt="Professional volunteer leadership"
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/45" />
+                <div className="relative w-full max-w-[560px]">
+                  <div className="absolute -left-10 top-8 h-24 w-24 rounded-full bg-violet-500/25 blur-3xl animate-float-soft" />
+                  <div className="absolute right-10 top-28 h-28 w-28 rounded-full bg-sky-400/20 blur-3xl animate-float-soft" />
 
-                      <div
-                        className="absolute top-4 left-4 h-28 w-28 rounded-[1.75rem] border border-white/15 shadow-[0_18px_50px_rgba(99,102,241,0.16)] hero-image-collage"
-                        style={{ backgroundImage: "url('/photos/photo-2.jpg')" }}
-                      />
-                      <div
-                        className="absolute right-5 top-28 h-24 w-24 rounded-[1.75rem] border border-white/15 shadow-[0_18px_50px_rgba(236,72,153,0.16)] hero-image-collage"
-                        style={{ backgroundImage: "url('/photos/photo-3.jpg')" }}
-                      />
-                      <div
-                        className="absolute left-6 bottom-24 h-20 w-20 rounded-[1.75rem] border border-white/15 shadow-[0_18px_50px_rgba(168,85,247,0.16)] hero-image-collage"
-                        style={{ backgroundImage: "url('/photos/photo-4.jpg')" }}
-                      />
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.08),transparent_50%)] pointer-events-none" />
-                    </div>
-
-                    {heroAchievements.map((achievement, index) => (
-                      <motion.div
-                        key={achievement.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.5 + index * 0.08 }}
-                        className={`hero-floating-card absolute ${heroAchievementPositions[index]} z-10 w-[13rem]`}
-                      >
-                        <div className="text-2xl">{achievement.emoji}</div>
-                        <div className="mt-3 text-sm font-semibold text-white">{achievement.title}</div>
-                        <div className="mt-1 text-[11px] text-white/70">{achievement.label}</div>
-                      </motion.div>
-                    ))}
-
-                    <motion.div
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.85 }}
-                      className="absolute inset-x-4 bottom-4"
-                    >
-                      <div className="glass rounded-[2rem] border border-white/10 bg-white/10 p-4 backdrop-blur-xl shadow-[0_24px_80px_rgba(15,23,42,0.35)]">
-                        <div className="flex items-center justify-between mb-4">
-                          <p className="text-[10px] uppercase tracking-widest text-white/60">Impact at a glance</p>
-                          <span className="text-[10px] uppercase tracking-widest rounded-full bg-emerald-400/20 text-emerald-300 px-2 py-1">
-                            Live
-                          </span>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3">
-                          {heroStats.map((s) => (
-                            <div key={s.label} className="flex flex-col gap-2 rounded-2xl border border-white/6 bg-white/5 p-3 shadow-[0_18px_35px_rgba(0,0,0,0.12)]">
-                              <div className="flex items-center justify-between">
-                                <s.icon className="size-4 text-indigo-glow" />
-                              </div>
-                              <div className="font-display text-2xl leading-none">
-                                <CountUp to={s.value} suffix={s.suffix} />
-                              </div>
-                              <div className="mt-0 text-[11px] text-white/65">{s.label}</div>
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-white/6 bg-white/5 p-3">
-                          <div className="size-8 rounded-full bg-gradient-to-br from-indigo-400 to-fuchsia-500" />
-                          <div>
-                            <p className="text-sm font-medium text-white">Trusted by Bhumi, TFI, Magic Bus</p>
-                            <p className="text-xs text-white/60">14 NGOs · 6 cities · 4 CSR foundations</p>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
+                  <div className="relative overflow-hidden rounded-[3rem] border border-white/10 bg-slate-950/30 shadow-[0_40px_120px_rgba(15,23,42,0.45)]">
+                    <img
+                      src="/photos/photo-1.jpg"
+                      alt="Narendhar D professional profile"
+                      className="h-[560px] w-full object-cover transition duration-700 ease-out hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                   </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="absolute left-0 top-0 w-64 glass rounded-[2rem] border border-white/10 p-5 shadow-[0_22px_80px_rgba(99,102,241,0.18)]"
+                  >
+                    <p className="text-xs uppercase tracking-[0.35em] text-emerald-300/80">Award</p>
+                    <h3 className="mt-3 text-lg font-semibold">Best Humanitarian Award</h3>
+                    <p className="mt-2 text-sm text-slate-300">Leadership recognized in rescue, welfare and volunteer coordination.</p>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.55 }}
+                    className="absolute right-0 top-32 w-64 glass rounded-[2rem] border border-white/10 p-5 shadow-[0_22px_80px_rgba(236,72,153,0.18)]"
+                  >
+                    <p className="text-xs uppercase tracking-[0.35em] text-violet-300/80">Impact</p>
+                    <h3 className="mt-3 text-lg font-semibold">500+ Students Mentored</h3>
+                    <p className="mt-2 text-sm text-slate-300">Mentorship delivered through classroom coaching and volunteer-led learning.</p>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.7 }}
+                    className="absolute left-4 bottom-6 w-56 glass rounded-[2rem] border border-white/10 p-5 shadow-[0_22px_80px_rgba(99,102,241,0.18)]"
+                  >
+                    <p className="text-xs uppercase tracking-[0.35em] text-sky-300/80">Recognition</p>
+                    <h3 className="mt-3 text-lg font-semibold">4+ Years of Service</h3>
+                    <p className="mt-2 text-sm text-slate-300">Sustained community engagement across education and CSR initiatives.</p>
+                  </motion.div>
                 </div>
               </motion.div>
             </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.65 }}
+              className="mt-16 rounded-[2.25rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl shadow-[0_40px_120px_rgba(15,23,42,0.45)]"
+            >
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Trusted by leading organizations</p>
+                  <p className="mt-3 text-2xl font-semibold text-white">Partner organizations and impact collaborators</p>
+                </div>
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-5 lg:gap-6">
+                  {logoPartners.map((logo) => (
+                    <div key={logo.name} className="flex items-center justify-center rounded-3xl border border-white/10 bg-white/5 p-4">
+                      <img src={logo.src} alt={logo.name} className="h-10 object-contain" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.75 }}
+              className="mt-8 grid gap-4 lg:grid-cols-3"
+            >
+              {awardHighlights.map((award) => (
+                <div
+                  key={award.title}
+                  className={`glass rounded-[2rem] border border-white/10 p-6 shadow-[0_28px_90px_rgba(15,23,42,0.2)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_35px_100px_rgba(99,102,241,0.25)] bg-gradient-to-br ${award.tone} from-opacity-10 to-opacity-10`}
+                >
+                  <p className="text-xs uppercase tracking-[0.35em] text-slate-300">Award</p>
+                  <h3 className="mt-4 text-2xl font-semibold text-white">{award.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-200">{award.subtitle}</p>
+                </div>
+              ))}
+            </motion.div>
           </div>
         </section>
 
